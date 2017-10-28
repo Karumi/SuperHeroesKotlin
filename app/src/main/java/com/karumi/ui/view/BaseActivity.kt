@@ -2,10 +2,12 @@ package com.karumi.ui.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.Toolbar
 import com.github.salomonbrys.kodein.Kodein.Module
 import com.github.salomonbrys.kodein.android.KodeinAppCompatActivity
 import com.karumi.asApp
+import com.karumi.domain.model.DomainError
 import com.karumi.ui.LifecyclePublisher
 import com.karumi.ui.LifecycleSubscriber
 import com.karumi.ui.lifeCycleLinker
@@ -38,4 +40,8 @@ abstract class BaseActivity : KodeinAppCompatActivity(), LifecyclePublisher by l
         unregister(presenter)
         super.onDestroy()
     }
+
+    fun showError(error: DomainError) =
+        Snackbar.make(toolbarView, error.asString(this), Snackbar.LENGTH_LONG).show()
+
 }

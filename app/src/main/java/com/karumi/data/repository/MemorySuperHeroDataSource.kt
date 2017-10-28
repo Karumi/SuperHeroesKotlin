@@ -19,7 +19,7 @@ class MemorySuperHeroDataSource(val timeProvider: TimeProvider) : SuperHeroDataS
         cache[key]?.let { Either.right(it) }
             ?: Either.left(NotIndexFoundDomainError(key))
 
-    override fun isUpdated(): Boolean = timeProvider.time - lastUpdate > TIME_UPDATE
+    override fun isUpdated(): Boolean = timeProvider.time - lastUpdate < TIME_UPDATE
 
     override fun contains(key: String): Boolean = cache.contains(key)
 

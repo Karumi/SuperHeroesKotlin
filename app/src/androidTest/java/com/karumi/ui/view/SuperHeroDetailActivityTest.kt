@@ -7,11 +7,12 @@ import com.github.salomonbrys.kodein.instance
 import com.karumi.data.repository.SuperHeroRepository
 import com.karumi.domain.model.SuperHero
 import com.karumi.mockito.MockitoExtensions.on
+import org.funktionale.either.Either
 import org.junit.Test
 import org.mockito.Mock
 
 class SuperHeroDetailActivityTest : AcceptanceTest<SuperHeroDetailActivity>(
-        SuperHeroDetailActivity::class.java) {
+    SuperHeroDetailActivity::class.java) {
 
     @Mock private lateinit var repository: SuperHeroRepository
 
@@ -37,7 +38,7 @@ class SuperHeroDetailActivityTest : AcceptanceTest<SuperHeroDetailActivity>(
         val superHeroName = "SuperHero"
         val superHeroDescription = "Super Hero Description"
         val superHero = SuperHero(superHeroName, null, isAvenger, superHeroDescription)
-        on(repository.getByName(superHeroName)).thenReturn(superHero)
+        on(repository.getByName(superHeroName)).thenReturn(Either.right(superHero))
         return superHero
     }
 

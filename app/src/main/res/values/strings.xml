@@ -16,4 +16,7 @@
   -->
 <resources>
   <string name="app_name">Kata Screenshot</string>
+  <string name="error_not_internet_message">Not internet connection</string>
+  <string name="error_superhero_not_found_message">The superhero does not exist</string>
+  <string name="error_unknown_message">¯\\\\_(ツ)_/¯</string>
 </resources>

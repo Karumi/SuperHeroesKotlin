@@ -2,9 +2,11 @@ package com.karumi.ui.presenter
 
 import co.metalab.asyncawait.async
 import com.karumi.common.weak
+import com.karumi.domain.model.DomainError
 import com.karumi.domain.model.SuperHero
 import com.karumi.domain.usecase.GetSuperHeroByName
 import com.karumi.ui.LifecycleSubscriber
+import org.funktionale.either.Either.Left
 import org.funktionale.either.Either.Right
 
 class SuperHeroDetailPresenter(
@@ -34,6 +36,7 @@ class SuperHeroDetailPresenter(
         view?.hideLoading()
         when (result) {
             is Right -> view?.showSuperHero(result.r)
+            is Left -> view?.showError(result.l)
         }
 
     }
@@ -43,6 +46,7 @@ class SuperHeroDetailPresenter(
         fun showLoading()
         fun hideLoading()
         fun showSuperHero(superHero: SuperHero)
+        fun showError(l: DomainError)
     }
 }
 
