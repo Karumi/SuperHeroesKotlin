@@ -5,11 +5,12 @@ import com.karumi.common.weak
 import com.karumi.domain.model.SuperHero
 import com.karumi.domain.usecase.GetSuperHeroByName
 import com.karumi.ui.LifecycleSubscriber
+import org.funktionale.either.Either.Right
 
 class SuperHeroDetailPresenter(
-        view: View,
-        private val getSuperHeroByName: GetSuperHeroByName) :
-        LifecycleSubscriber {
+    view: View,
+    private val getSuperHeroByName: GetSuperHeroByName) :
+    LifecycleSubscriber {
 
     private val view: View? by weak(view)
 
@@ -31,7 +32,10 @@ class SuperHeroDetailPresenter(
     private fun refreshSuperHeroes() = async {
         val result = await { getSuperHeroByName(name) }
         view?.hideLoading()
-        view?.showSuperHero(result)
+        when (result) {
+            is Right -> view?.showSuperHero(result.r)
+        }
+
     }
 
     interface View {
@@ -40,5 +44,5 @@ class SuperHeroDetailPresenter(
         fun hideLoading()
         fun showSuperHero(superHero: SuperHero)
     }
-
 }
+

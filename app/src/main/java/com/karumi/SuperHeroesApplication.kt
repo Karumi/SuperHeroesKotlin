@@ -6,7 +6,10 @@ import com.github.salomonbrys.kodein.Kodein.Module
 import com.github.salomonbrys.kodein.KodeinAware
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.conf.ConfigurableKodein
+import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.singleton
+import com.karumi.common.RealTimeProvider
+import com.karumi.common.TimeProvider
 import com.karumi.data.repository.MemorySuperHeroDataSource
 import com.karumi.data.repository.NetworkSuperHeroDataSource
 import com.karumi.data.repository.SuperHeroRepository
@@ -35,9 +38,10 @@ class SuperHeroesApplication : Application(), KodeinAware {
     private fun appDependencies(): Module {
         return Module(allowSilentOverride = true) {
             bind<SuperHeroRepository>() with singleton {
-                SuperHeroRepository(listOf(MemorySuperHeroDataSource(),
+                SuperHeroRepository(listOf(MemorySuperHeroDataSource(instance()),
                     NetworkSuperHeroDataSource()))
             }
+            bind<TimeProvider>() with instance(RealTimeProvider())
         }
     }
 }

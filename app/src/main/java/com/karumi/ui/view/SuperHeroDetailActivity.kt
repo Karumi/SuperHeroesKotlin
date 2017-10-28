@@ -13,7 +13,12 @@ import com.karumi.domain.model.SuperHero
 import com.karumi.domain.usecase.GetSuperHeroByName
 import com.karumi.ui.presenter.SuperHeroDetailPresenter
 import com.karumi.ui.utils.setImageBackground
-import kotlinx.android.synthetic.main.super_hero_detail_activity.*
+import kotlinx.android.synthetic.main.super_hero_detail_activity.iv_avengers_badge
+import kotlinx.android.synthetic.main.super_hero_detail_activity.iv_super_hero_photo
+import kotlinx.android.synthetic.main.super_hero_detail_activity.progress_bar
+import kotlinx.android.synthetic.main.super_hero_detail_activity.toolbar
+import kotlinx.android.synthetic.main.super_hero_detail_activity.tv_super_hero_description
+import kotlinx.android.synthetic.main.super_hero_detail_activity.tv_super_hero_name
 
 class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
 

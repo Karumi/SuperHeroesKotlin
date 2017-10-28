@@ -5,10 +5,11 @@ import com.karumi.common.weak
 import com.karumi.domain.model.SuperHero
 import com.karumi.domain.usecase.GetSuperHeroes
 import com.karumi.ui.LifecycleSubscriber
+import org.funktionale.either.Either.Right
 
 class SuperHeroesPresenter(
-        view: View,
-        private val getSuperHeroes: GetSuperHeroes) : LifecycleSubscriber {
+    view: View,
+    private val getSuperHeroes: GetSuperHeroes) : LifecycleSubscriber {
 
     private val view: View? by weak(view)
 
@@ -20,6 +21,12 @@ class SuperHeroesPresenter(
     private fun refreshSuperHeroes() = async {
         val result = await { getSuperHeroes() }
         view?.hideLoading()
+        when (result) {
+            is Right -> showSuperHeroes(result.r)
+        }
+    }
+
+    private fun showSuperHeroes(result: List<SuperHero>) {
         when {
             result.isEmpty() -> view?.showEmptyCase()
             else -> view?.showSuperHeroes(result)

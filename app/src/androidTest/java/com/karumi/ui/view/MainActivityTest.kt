@@ -6,6 +6,7 @@ import com.github.salomonbrys.kodein.instance
 import com.karumi.data.repository.SuperHeroRepository
 import com.karumi.domain.model.SuperHero
 import com.karumi.mockito.MockitoExtensions.on
+import org.funktionale.either.Either
 import org.junit.Test
 import org.mockito.Mock
 
@@ -63,24 +64,24 @@ class MainActivityTest : AcceptanceTest<MainActivity>(MainActivity::class.java) 
     }
 
     private fun givenThereAreSomeAvengers(numberOfAvengers: Int): List<SuperHero> =
-            givenThereAreSomeSuperHeroes(numberOfAvengers, avengers = true)
+        givenThereAreSomeSuperHeroes(numberOfAvengers, avengers = true)
 
     private fun givenThereAreSomeSuperHeroes(
-            numberOfSuperHeroes: Int = 1,
-            avengers: Boolean = false): List<SuperHero> {
+        numberOfSuperHeroes: Int = 1,
+        avengers: Boolean = false): List<SuperHero> {
         val superHeroes = IntRange(0, numberOfSuperHeroes - 1).map { id ->
             val superHeroName = "SuperHero - " + id
             val superHeroDescription = "Description Super Hero - " + id
             SuperHero(superHeroName, null, avengers,
-                    superHeroDescription)
+                superHeroDescription)
         }
 
-        on(repository.getAllSuperHeroes()).thenReturn(superHeroes)
+        on(repository.getAllSuperHeroes()).thenReturn(Either.right(superHeroes))
         return superHeroes
     }
 
     private fun givenThereAreNoSuperHeroes() {
-        on(repository.getAllSuperHeroes()).thenReturn(emptyList())
+        on(repository.getAllSuperHeroes()).thenReturn(Either.right(emptyList()))
     }
 
     override val testDependencies = Module(allowSilentOverride = true) {

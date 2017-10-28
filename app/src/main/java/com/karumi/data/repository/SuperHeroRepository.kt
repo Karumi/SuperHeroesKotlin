@@ -1,18 +1,15 @@
 package com.karumi.data.repository
 
-import android.util.Log
+import com.karumi.domain.model.DomainError
 import com.karumi.domain.model.SuperHero
+import org.funktionale.either.Either
 
-class SuperHeroRepository(val datasources: List<SuperHeroDataSource>) {
+class SuperHeroRepository(private val datasources: List<SuperHeroDataSource>) {
 
-  fun getAllSuperHeroes(): List<SuperHero> {
-    waitABit()
-    return superHeroes
-  }
+    fun getAllSuperHeroes(): Either<DomainError, List<SuperHero>> =
+        datasources.first { it.isUpdated() }.getAll()
 
-  fun getByName(name: String): SuperHero {
-    waitABit()
-    return superHeroes.first { it.name == name }
-  }
+    fun getByName(key: String): Either<DomainError, SuperHero> =
+        datasources.first { it.isUpdated() && it.contains(key) }.get(key)
 
 }
