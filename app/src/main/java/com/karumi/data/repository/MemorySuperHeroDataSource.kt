@@ -7,7 +7,7 @@ import com.karumi.domain.model.SuperHero
 import org.funktionale.either.Either
 import java.util.concurrent.TimeUnit
 
-class MemorySuperHeroDataSource(val timeProvider: TimeProvider) : SuperHeroDataSource {
+class MemorySuperHeroDataSource(private val timeProvider: TimeProvider) : SuperHeroDataSource {
     companion object {
         private val TIME_UPDATE = TimeUnit.SECONDS.toMillis(1)
     }
