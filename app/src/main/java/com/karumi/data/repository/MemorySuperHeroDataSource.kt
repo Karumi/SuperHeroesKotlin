@@ -27,6 +27,6 @@ class MemorySuperHeroDataSource(private val timeProvider: TimeProvider) : SuperH
         Either.right(ArrayList(cache.values))
 
     override fun populate(superHeroes: List<SuperHero>) =
-        cache.putAll(superHeroes.map { it.name to it })
+        cache.putAll(superHeroes.map { it.id to it })
 
 }

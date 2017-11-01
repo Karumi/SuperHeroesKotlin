@@ -35,16 +35,17 @@ class SuperHeroDetailActivityTest : AcceptanceTest<SuperHeroDetailActivity>(
     }
 
     private fun givenThereIsASuperHero(isAvenger: Boolean): SuperHero {
+        val superHeroId = "id"
         val superHeroName = "SuperHero"
         val superHeroDescription = "Super Hero Description"
-        val superHero = SuperHero(superHeroName, null, isAvenger, superHeroDescription)
+        val superHero = SuperHero(superHeroId, superHeroName, null, isAvenger, superHeroDescription)
         on(repository.getByName(superHeroName)).thenReturn(Either.right(superHero))
         return superHero
     }
 
     private fun startActivity(superHero: SuperHero): SuperHeroDetailActivity {
         val args = Bundle()
-        args.putString("super_hero_name_key", superHero.name)
+        args.putString("super_hero_name_key", superHero.id)
         return startActivity(args)
     }
 

@@ -13,6 +13,8 @@ import com.karumi.common.TimeProvider
 import com.karumi.data.repository.MemorySuperHeroDataSource
 import com.karumi.data.repository.NetworkSuperHeroDataSource
 import com.karumi.data.repository.SuperHeroRepository
+import com.karumi.marvelapiclient.CharacterApiClient
+import com.karumi.marvelapiclient.MarvelApiConfig
 
 class SuperHeroesApplication : Application(), KodeinAware {
     override val kodein = ConfigurableKodein(mutable = true)
@@ -39,9 +41,12 @@ class SuperHeroesApplication : Application(), KodeinAware {
         return Module(allowSilentOverride = true) {
             bind<SuperHeroRepository>() with singleton {
                 SuperHeroRepository(listOf(MemorySuperHeroDataSource(instance()),
-                    NetworkSuperHeroDataSource()))
+                    NetworkSuperHeroDataSource(instance())))
             }
             bind<TimeProvider>() with instance(RealTimeProvider())
+            bind<CharacterApiClient>() with singleton { CharacterApiClient(instance()) }
+            bind<MarvelApiConfig>() with instance(
+                MarvelApiConfig.with(BuildConfig.MARVEL_PUBLIC_KEY, BuildConfig.MARVEL_PRIVATE_KEY))
         }
     }
 }
