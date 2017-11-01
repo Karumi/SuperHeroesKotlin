@@ -3,6 +3,32 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'shot'
 
+private static Properties loadMarvelProperties() {
+    Properties props = new Properties()
+    props.load(new FileInputStream("./app/marvel.properties"))
+    props
+}
+
+private static checkMarvelProperties() {
+    new File("./app/marvel.properties").exists()
+}
+
+static def getPublicMarvelKey() {
+    if (checkMarvelProperties()) {
+        Properties props = loadMarvelProperties()
+        return props['MARVEL_PUBLIC_KEY']
+    }
+    "null"
+}
+
+static def getPrivateMarvelKey() {
+    if (checkMarvelProperties()) {
+        Properties props = loadMarvelProperties()
+        return props['MARVEL_PRIVATE_KEY']
+    }
+    "null"
+}
+
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
@@ -13,6 +39,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "com.karumi.InjectedTestRunner"
+        buildConfigField "String", "MARVEL_PUBLIC_KEY", getPublicMarvelKey()
+        buildConfigField "String", "MARVEL_PRIVATE_KEY", getPrivateMarvelKey()
     }
     buildTypes {
         release {
