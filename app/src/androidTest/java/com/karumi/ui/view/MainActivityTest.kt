@@ -72,7 +72,7 @@ class MainActivityTest : AcceptanceTest<MainActivity>(MainActivity::class.java) 
         val superHeroes = IntRange(0, numberOfSuperHeroes - 1).map { id ->
             val superHeroName = "SuperHero - " + id
             val superHeroDescription = "Description Super Hero - " + id
-            SuperHero(superHeroName, null, avengers,
+            SuperHero("$id", superHeroName, null, avengers,
                 superHeroDescription)
         }
 

@@ -28,10 +28,10 @@ class SuperHeroDetailPresenter(
 
     override fun update() {
         view?.showLoading()
-        refreshSuperHeroes()
+        refreshSuperHero()
     }
 
-    private fun refreshSuperHeroes() = async {
+    private fun refreshSuperHero() = async {
         val result = await { getSuperHeroByName(name) }
         view?.hideLoading()
         when (result) {

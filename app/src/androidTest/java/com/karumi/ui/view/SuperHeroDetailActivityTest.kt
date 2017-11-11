@@ -39,7 +39,7 @@ class SuperHeroDetailActivityTest : AcceptanceTest<SuperHeroDetailActivity>(
         val superHeroName = "SuperHero"
         val superHeroDescription = "Super Hero Description"
         val superHero = SuperHero(superHeroId, superHeroName, null, isAvenger, superHeroDescription)
-        on(repository.getByName(superHeroName)).thenReturn(Either.right(superHero))
+        on(repository.getByName(superHeroId)).thenReturn(Either.right(superHero))
         return superHero
     }
 

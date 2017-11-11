@@ -39,9 +39,9 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
         get() = toolbar
 
     override fun preparePresenter(intent: Intent?) {
-        val superHeroName = intent?.extras?.getString(SUPER_HERO_NAME_KEY)
-        title = superHeroName
-        presenter.preparePresenter(superHeroName)
+        val superId = intent?.extras?.getString(SUPER_HERO_NAME_KEY)
+        title = ""
+        presenter.preparePresenter(superId)
     }
 
     override fun close() = finish()
@@ -55,6 +55,7 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
     }
 
     override fun showSuperHero(superHero: SuperHero) {
+        title = superHero.name
         tv_super_hero_name.text = superHero.name
         tv_super_hero_description.text = superHero.description
         iv_avengers_badge.visibility =
