@@ -16,6 +16,7 @@ import org.mockito.MockitoAnnotations
 class SuperHeroRepositoryTest {
     companion object {
         val ANY_SUPERHERO = SuperHero(
+            id = "anyId",
             name = "anyName",
             photo = null,
             isAvenger = false,
@@ -53,6 +54,18 @@ class SuperHeroRepositoryTest {
 
         verify(dataSource1, never()).getAll()
         verify(dataSource2, times(1)).getAll()
+    }
+
+    @Test
+    fun `should call populate with new data for each datasource after obtain getAll`() {
+        givenDataSourceWithOldData(dataSource1)
+        val superheroes = givenDataSourceWithData(dataSource2)
+        val repository = SuperHeroRepository(listOf(dataSource1, dataSource2))
+
+        repository.getAllSuperHeroes()
+
+        verify(dataSource1, times(1)).populate(superheroes)
+        verify(dataSource2, times(1)).populate(superheroes)
     }
 
     @Test
@@ -99,11 +112,13 @@ class SuperHeroRepositoryTest {
         whenever(dataSource.contains(any())).thenReturn(false)
     }
 
-    private fun givenDataSourceWithData(dataSource: SuperHeroDataSource) {
+    private fun givenDataSourceWithData(dataSource: SuperHeroDataSource): List<SuperHero> {
+        val superheroes = listOf(ANY_SUPERHERO)
         whenever(dataSource.isUpdated()).thenReturn(true)
-        whenever(dataSource.getAll()).thenReturn(Either.right(emptyList()))
+        whenever(dataSource.getAll()).thenReturn(Either.right(superheroes))
         whenever(dataSource.contains(any())).thenReturn(true)
         whenever(dataSource.get(any())).thenReturn(Either.right(ANY_SUPERHERO))
+        return superheroes
     }
 
 }

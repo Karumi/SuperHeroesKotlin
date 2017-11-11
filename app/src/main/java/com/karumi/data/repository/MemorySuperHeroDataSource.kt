@@ -13,7 +13,7 @@ class MemorySuperHeroDataSource(private val timeProvider: TimeProvider) : SuperH
     }
 
     private val cache = LinkedHashMap<String, SuperHero>()
-    private val lastUpdate = 0L
+    private var lastUpdate = 0L
 
     override fun get(key: String): Either<DomainError, SuperHero> =
         cache[key]?.let { Either.right(it) }
@@ -26,7 +26,9 @@ class MemorySuperHeroDataSource(private val timeProvider: TimeProvider) : SuperH
     override fun getAll(): Either<DomainError, List<SuperHero>> =
         Either.right(ArrayList(cache.values))
 
-    override fun populate(superHeroes: List<SuperHero>) =
+    override fun populate(superHeroes: List<SuperHero>) {
+        lastUpdate = timeProvider.time
         cache.putAll(superHeroes.map { it.id to it })
+    }
 
 }
