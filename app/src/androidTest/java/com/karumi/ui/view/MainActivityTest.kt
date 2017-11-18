@@ -70,10 +70,10 @@ class MainActivityTest : AcceptanceTest<MainActivity>(MainActivity::class.java) 
         numberOfSuperHeroes: Int = 1,
         avengers: Boolean = false): List<SuperHero> {
         val superHeroes = IntRange(0, numberOfSuperHeroes - 1).map { id ->
-            val superHeroName = "SuperHero - " + id
-            val superHeroDescription = "Description Super Hero - " + id
-            SuperHero("$id", superHeroName, null, avengers,
-                superHeroDescription)
+            SuperHero("$id",
+                name = "SuperHero - $id"
+                , isAvenger = avengers,
+                description = "Description Super Hero - $id")
         }
 
         on(repository.getAllSuperHeroes()).thenReturn(Either.right(superHeroes))

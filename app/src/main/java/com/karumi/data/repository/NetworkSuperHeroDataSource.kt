@@ -13,7 +13,7 @@ import com.karumi.marvelapiclient.model.MarvelResponse
 import org.funktionale.either.Either
 import java.net.ConnectException
 
-class NetworkSuperHeroDataSource(val apiClient: CharacterApiClient) : SuperHeroDataSource {
+class NetworkSuperHeroDataSource(private val apiClient: CharacterApiClient) : SuperHeroDataSource {
     companion object {
         val PAGE_SIZE = 10
         val RESPONSE_OK = 200
@@ -21,19 +21,19 @@ class NetworkSuperHeroDataSource(val apiClient: CharacterApiClient) : SuperHeroD
 
     override fun get(key: String): Either<DomainError, SuperHero> =
         try {
-            mapResponse(apiClient.getCharacter(key), { mapSuperHero(it) })
+            mapResponse(apiClient.getCharacter(key)) {
+                mapSuperHero(it)
+            }
         } catch (exception: Exception) {
             Either.left(mapException(exception))
         }
 
-    override fun isUpdated(): Boolean = true
-
     override fun getAll(): Either<DomainError, List<SuperHero>> =
         try {
-            mapResponse(apiClient.getAll(0, PAGE_SIZE),
-                {
-                    it.characters.map { mapSuperHero(it) }
-                })
+            mapResponse(apiClient.getAll(0, PAGE_SIZE))
+            {
+                it.characters.map { mapSuperHero(it) }
+            }
         } catch (exception: Exception) {
             Either.left(mapException(exception))
         }

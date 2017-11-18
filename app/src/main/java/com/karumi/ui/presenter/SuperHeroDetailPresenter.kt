@@ -46,7 +46,7 @@ class SuperHeroDetailPresenter(
         fun showLoading()
         fun hideLoading()
         fun showSuperHero(superHero: SuperHero)
-        fun showError(l: DomainError)
+        fun showError(error: DomainError)
     }
 }
 

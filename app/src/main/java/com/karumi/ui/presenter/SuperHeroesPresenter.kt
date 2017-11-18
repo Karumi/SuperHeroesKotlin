@@ -44,6 +44,6 @@ class SuperHeroesPresenter(
         fun showLoading()
         fun showEmptyCase()
         fun openDetail(name: String)
-        fun showError(l: DomainError)
+        fun showError(error: DomainError)
     }
 }
