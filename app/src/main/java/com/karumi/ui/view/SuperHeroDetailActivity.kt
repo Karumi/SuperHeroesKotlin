@@ -13,7 +13,12 @@ import com.karumi.domain.model.SuperHero
 import com.karumi.domain.usecase.GetSuperHeroByName
 import com.karumi.ui.presenter.SuperHeroDetailPresenter
 import com.karumi.ui.utils.setImageBackground
-import kotlinx.android.synthetic.main.super_hero_detail_activity.*
+import kotlinx.android.synthetic.main.super_hero_detail_activity.iv_avengers_badge
+import kotlinx.android.synthetic.main.super_hero_detail_activity.iv_super_hero_photo
+import kotlinx.android.synthetic.main.super_hero_detail_activity.progress_bar
+import kotlinx.android.synthetic.main.super_hero_detail_activity.toolbar
+import kotlinx.android.synthetic.main.super_hero_detail_activity.tv_super_hero_description
+import kotlinx.android.synthetic.main.super_hero_detail_activity.tv_super_hero_name
 
 class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
 
@@ -34,9 +39,9 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
         get() = toolbar
 
     override fun preparePresenter(intent: Intent?) {
-        val superHeroName = intent?.extras?.getString(SUPER_HERO_NAME_KEY)
-        title = superHeroName
-        presenter.preparePresenter(superHeroName)
+        val superId = intent?.extras?.getString(SUPER_HERO_NAME_KEY)
+        title = ""
+        presenter.preparePresenter(superId)
     }
 
     override fun close() = finish()
@@ -50,6 +55,7 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
     }
 
     override fun showSuperHero(superHero: SuperHero) {
+        title = superHero.name
         tv_super_hero_name.text = superHero.name
         tv_super_hero_description.text = superHero.description
         iv_avengers_badge.visibility =

@@ -13,7 +13,10 @@ import com.karumi.domain.model.SuperHero
 import com.karumi.domain.usecase.GetSuperHeroes
 import com.karumi.ui.presenter.SuperHeroesPresenter
 import com.karumi.ui.view.adapter.SuperHeroesAdapter
-import kotlinx.android.synthetic.main.main_activity.*
+import kotlinx.android.synthetic.main.main_activity.progress_bar
+import kotlinx.android.synthetic.main.main_activity.recycler_view
+import kotlinx.android.synthetic.main.main_activity.toolbar
+import kotlinx.android.synthetic.main.main_activity.tv_empty_case
 
 class MainActivity : BaseActivity(), SuperHeroesPresenter.View {
 
@@ -64,7 +67,7 @@ class MainActivity : BaseActivity(), SuperHeroesPresenter.View {
     override val activityModules = Module(allowSilentOverride = true) {
         bind<SuperHeroesPresenter>() with provider {
             SuperHeroesPresenter(this@MainActivity,
-                    instance())
+                instance())
         }
         bind<GetSuperHeroes>() with provider { GetSuperHeroes(instance()) }
     }

@@ -2,14 +2,17 @@ package com.karumi.ui.presenter
 
 import co.metalab.asyncawait.async
 import com.karumi.common.weak
+import com.karumi.domain.model.DomainError
 import com.karumi.domain.model.SuperHero
 import com.karumi.domain.usecase.GetSuperHeroByName
 import com.karumi.ui.LifecycleSubscriber
+import org.funktionale.either.Either.Left
+import org.funktionale.either.Either.Right
 
 class SuperHeroDetailPresenter(
-        view: View,
-        private val getSuperHeroByName: GetSuperHeroByName) :
-        LifecycleSubscriber {
+    view: View,
+    private val getSuperHeroByName: GetSuperHeroByName) :
+    LifecycleSubscriber {
 
     private val view: View? by weak(view)
 
@@ -25,13 +28,17 @@ class SuperHeroDetailPresenter(
 
     override fun update() {
         view?.showLoading()
-        refreshSuperHeroes()
+        refreshSuperHero()
     }
 
-    private fun refreshSuperHeroes() = async {
+    private fun refreshSuperHero() = async {
         val result = await { getSuperHeroByName(name) }
         view?.hideLoading()
-        view?.showSuperHero(result)
+        when (result) {
+            is Right -> view?.showSuperHero(result.r)
+            is Left -> view?.showError(result.l)
+        }
+
     }
 
     interface View {
@@ -39,6 +46,7 @@ class SuperHeroDetailPresenter(
         fun showLoading()
         fun hideLoading()
         fun showSuperHero(superHero: SuperHero)
+        fun showError(error: DomainError)
     }
-
 }
+

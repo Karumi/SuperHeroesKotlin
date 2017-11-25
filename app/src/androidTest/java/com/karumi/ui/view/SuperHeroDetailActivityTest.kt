@@ -7,11 +7,12 @@ import com.github.salomonbrys.kodein.instance
 import com.karumi.data.repository.SuperHeroRepository
 import com.karumi.domain.model.SuperHero
 import com.karumi.mockito.MockitoExtensions.on
+import org.funktionale.either.Either
 import org.junit.Test
 import org.mockito.Mock
 
 class SuperHeroDetailActivityTest : AcceptanceTest<SuperHeroDetailActivity>(
-        SuperHeroDetailActivity::class.java) {
+    SuperHeroDetailActivity::class.java) {
 
     @Mock private lateinit var repository: SuperHeroRepository
 
@@ -34,16 +35,18 @@ class SuperHeroDetailActivityTest : AcceptanceTest<SuperHeroDetailActivity>(
     }
 
     private fun givenThereIsASuperHero(isAvenger: Boolean): SuperHero {
-        val superHeroName = "SuperHero"
-        val superHeroDescription = "Super Hero Description"
-        val superHero = SuperHero(superHeroName, null, isAvenger, superHeroDescription)
-        on(repository.getByName(superHeroName)).thenReturn(superHero)
+        val superHero = SuperHero(id = "id",
+            name = "SuperHero",
+            isAvenger = isAvenger,
+            description = "Super Hero Description")
+
+        on(repository.getByName(superHero.id)).thenReturn(Either.right(superHero))
         return superHero
     }
 
     private fun startActivity(superHero: SuperHero): SuperHeroDetailActivity {
         val args = Bundle()
-        args.putString("super_hero_name_key", superHero.name)
+        args.putString("super_hero_name_key", superHero.id)
         return startActivity(args)
     }
 
