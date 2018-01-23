@@ -1,14 +1,12 @@
-![Karumi logo][karumilogo] Architecture sample in Kotlin [![Build Status]()]()
-============================
+# ![Karumi logo][karumilogo] Architecture sample in Kotlin [![Build Status](https://travis-ci.org/Karumi/KataSuperHeroesKotlin.svg?branch=kata-super-heroes)](https://travis-ci.org/Karumi/KataSuperHeroesKotlin)
 
-This is an example about apply architecture principles in Kotlin.
-
+Android application which aims to be an example about software architecture principles in Kotlin.
 
 ---
 
 ## Getting started
 
-This repository contains an Android application to show Super Heroes information:
+This repository contains an Android application to show Super Heroes information as the following screenshot shows:
 
 ![ApplicationScreencast][applicationScreencast]
 
